@@ -1,0 +1,9 @@
+# Служебные файлы Visual Studio
+.vs/
+*.slnx
+*.suo
+*.user
+
+# Скомпилированный код
+bin/
+obj/
