@@ -1,4 +1,15 @@
-﻿using System;
+﻿
+/*
+ * 
+ * Эта вторая версия калькулятора с вводом в одну строку.
+ * На данный момент реализовал рабочую версию, пока что без проверок на лишние символы операции, допустим 2++2 это оишбка и программа падает
+ * Поэтому пока что тут нету приоритеты операций, а так все работает отлично.
+ * 
+ */
+
+
+
+using System;
 
 class Program
 {
@@ -28,25 +39,86 @@ class Program
             string fixExpression = readInput.Replace(" ", "");
             
             //Console.WriteLine(fixExpression);
-            Calculate(fixExpression);
+            //Calculate(fixExpression);
+            FindNumberAndCalcaulate(fixExpression);
         }
     }
 
-    static void Calculate(string expression)
+    static void FindNumberAndCalcaulate(string expression) // 1 + 2 * 3 = 7
     {
-        for (int i = 0; i < expression.Length; i++)
+        string buffer = "";
+        float result = 0f;
+        char op = ' ';
+        
+
+        for(int i  = 0; i < expression.Length; i++)
         {
-            if (expression[i] == '+') {
-                int n1, n2;
-                int.TryParse(expression[i - 1].ToString(), out n1);
-                int.TryParse(expression[i + 1].ToString(), out n2);
-                Console.WriteLine(n1);
-                Console.WriteLine(n2);
-                Console.WriteLine(n1+n2);
+
+            if (char.IsDigit(expression[i]) || expression[i] == '.')
+            {
+
+                buffer += expression[i];
+                
+
+            }
+            else
+            {
+                float buffNum = float.Parse(buffer);
+                if(op == ' ')
+                {
+                    result = buffNum;
+                }
+                else
+                {
+                    result = Calculate(buffNum,result,op);
+                }
+
+                op = expression[i];
+                buffer = "";
             }
         }
+
+        if(buffer != "")
+        {
+            float buffNum = float.Parse(buffer);
+            if (op == ' ')
+                result = buffNum;
+            else
+                result = Calculate(buffNum, result, op);
+        }
+        Console.WriteLine("Результат:  " + result + '.');
+        
     }
 
+   
+    static float Calculate(float bufferNum,float result, char op)
+    {
+        
+
+        switch (op)
+        {
+            case '+':
+                result += bufferNum;
+                break;
+            case '-':
+                result -= bufferNum;
+                break;
+            case '*':
+                result *= bufferNum;
+                break;
+            case '/':
+                if(bufferNum == 0)
+                {
+                    Console.WriteLine("Ошибка деления.");
+                    return float.NaN;
+                }
+                result /= bufferNum;
+                break;
+            
+        }
+
+        return result;
+    }
     
 }
 
