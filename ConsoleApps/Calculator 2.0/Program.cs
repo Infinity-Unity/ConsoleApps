@@ -36,6 +36,12 @@ class Program
                 break;
             }
 
+            if (lowerInput == "clear")
+            {
+                Console.Clear();
+                continue;
+            }
+
             string fixExpression = readInput.Replace(" ", "");
             
             //Console.WriteLine(fixExpression);
@@ -63,7 +69,14 @@ class Program
             }
             else
             {
-                float buffNum = float.Parse(buffer);
+                //float buffNum = float.Parse(buffer);
+                float buffNum = 0;
+                
+                if (!float.TryParse(buffer, out buffNum)) //новое : TryParse вместо parse
+                {
+                    Console.WriteLine($"Введено некорректное выражение! Повторите попытку.\nСамое выражение {expression[i]}");
+                    continue;
+                }
                 if(op == ' ')
                 {
                     result = buffNum;
@@ -80,7 +93,14 @@ class Program
 
         if(buffer != "")
         {
-            float buffNum = float.Parse(buffer);
+            //float buffNum = float.Parse(buffer);
+            float buffNum = 0;
+
+            if (!float.TryParse(buffer, out buffNum)) //p.s проверка вне цикла , 
+            {
+                Console.WriteLine($"Введено некорректное выражение! Повторите попытку.\nСамое выражение {buffer}");
+                return;
+            }
             if (op == ' ')
                 result = buffNum;
             else
