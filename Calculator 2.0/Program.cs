@@ -11,7 +11,7 @@
 
 using System;
 
-class Program
+class Calculator_v2
 {
     static void Main(string[] args)
     {
