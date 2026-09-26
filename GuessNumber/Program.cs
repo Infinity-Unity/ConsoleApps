@@ -33,7 +33,7 @@ class GuessNumber
 
                     break;
                 case "2":
-                    
+                    SetSettings(ref lowValue,ref highValue);
                     break;
                 case "3":
                     Console.WriteLine("Вы вышли из игры.");
@@ -64,6 +64,51 @@ class GuessNumber
         Console.WriteLine("Настройки");
         Console.WriteLine("Здесь вы можете изменять диапазон.");
         Console.WriteLine($"Текущий диапазон : {lowValue} до {highValue}.");
+        Console.WriteLine("Хотите задать диапазон?(Y-задать/N-выйти из настроек)");
+        while (true)
+        {
+            string readUserConfirm = Console.ReadLine();
+            if(string.IsNullOrWhiteSpace(readUserConfirm) || readUserConfirm == "")
+            {
+                Console.WriteLine("Неверный параметр.Повторите попытку");
+                continue;
+            }
+
+
+            if (readUserConfirm.ToLower().Trim() == "y")
+            {
+                Console.Write("Введите минимальное число диапазона: ");
+                string low = Console.ReadLine();
+                int lowNumber;
+                if (!int.TryParse(low, out lowNumber))
+                {
+                    Console.WriteLine("Некорректно введено число. Повторите попытку!");
+                    continue;
+                }
+
+                Console.Write("Введите максимальное число диапазона: ");
+                string high = Console.ReadLine();
+                int highNumber;
+                if (!int.TryParse(high, out highNumber))
+                {
+                    Console.WriteLine("Некорректно введено число. Повторите попытку!");
+                    continue;
+                }
+
+                Console.WriteLine($"Отлично! Ввод изменен с [{lowValue} : {highValue}] на [{lowNumber} : {highNumber}].");
+                lowValue = lowNumber;
+                highValue = highNumber;
+                break;
+            }
+            else if(readUserConfirm.ToLower().Trim() == "n")
+            {
+                break;
+            }
+        }
+        
+        int firstOption = 0;
+        int secondOption = 0;
+
     }
 }
 
