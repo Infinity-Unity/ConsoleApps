@@ -12,6 +12,7 @@ using System;
 
 class GuessNumber
 {
+    static Random random = new Random();
     static void Main(string[] args)
     {
 
@@ -48,16 +49,11 @@ class GuessNumber
         Console.WriteLine("Вы началаи игру");
         Console.WriteLine($"Введите число от {lowValue} до {highValue} включительно.");
 
-        Random random = new Random();
-
-
-
         int secretNumber = random.Next(lowValue, highValue + 1);
         Console.WriteLine($"Загадайте число от {lowValue} до {highValue}.");
 
         while (true)
         {
-
             Console.Write("Введите число: ");
             string readUserInput = Console.ReadLine();
 
@@ -70,19 +66,14 @@ class GuessNumber
 
             if (!int.TryParse(readUserInput, out userGuessNumber))
             {
-                Console.WriteLine("Введенео некорректное число. Повторите попытку!");
+                Console.WriteLine("Введено некорректное число. Повторите попытку!");
                 continue;
             }
-
-
 
             if (secretNumber == userGuessNumber)
             {
                 Console.WriteLine("Поздравляем с победой!!! Вы угадали число.");
-                Console.WriteLine("Хоите продолжить?(Y)");
-                string readUserConfirm = Console.ReadLine();
-                string fixUserConfirm = readUserConfirm.Trim().ToLower();
-                if (fixUserConfirm == "y")
+                if (ConfirmChoise("Хотите продолжить?"))
                 {
                     Console.WriteLine("Отлично. Продлжаем игру....");
                     secretNumber = random.Next(lowValue, highValue + 1);
@@ -98,7 +89,6 @@ class GuessNumber
             }
             else
             {
-                Console.WriteLine("Вы не угадали число.");
                 if(userGuessNumber > secretNumber) Console.WriteLine("Попробуй в меньшую сторону");
                 if(userGuessNumber < secretNumber) Console.WriteLine("Попробуй в большую сторону");
 
@@ -111,18 +101,10 @@ class GuessNumber
         Console.WriteLine("Настройки");
         Console.WriteLine("Здесь вы можете изменять диапазон.");
         Console.WriteLine($"Текущий диапазон : {lowValue} до {highValue}.");
-        Console.WriteLine("Хотите задать диапазон?(Y-задать/N-выйти из настроек)");
-        while (true)
+
+        if (ConfirmChoise("Хотите задать диапазон?"))
         {
-            string readUserConfirm = Console.ReadLine();
-            if (string.IsNullOrWhiteSpace(readUserConfirm))
-            {
-                Console.WriteLine("Неверный параметр.Повторите попытку");
-                continue;
-            }
-
-
-            if (readUserConfirm.ToLower().Trim() == "y")
+            while (true)
             {
                 Console.Write("Введите минимальное число диапазона: ");
                 string low = Console.ReadLine();
@@ -147,14 +129,13 @@ class GuessNumber
                 highValue = highNumber;
                 break;
             }
-            else if (readUserConfirm.ToLower().Trim() == "n")
-            {
-                Console.WriteLine("Вы вышли из настроек.");
-                break;
-            }
+            
+
         }
-
-
+        else
+        {
+            Console.WriteLine("Вы вышли из настроек.");
+        }
     }
 
     static void ShowInfo()
@@ -164,17 +145,39 @@ class GuessNumber
         Console.WriteLine("Вы можете выбрать диапазон чисел в настройках, а также настроить другие параметры.");
         Console.WriteLine("Нажмите любую кнопку чтобы продолжить");
         Console.ReadKey();
-
         Console.Clear();
-
         Console.WriteLine("Нажмите:\n\n1 - Начать игру!;\n2 - Настройки;\n3 - Выйти из игры;");
     }
 
 
-    static void ConfirmChoise()
+    static bool ConfirmChoise(string question)
     {
-        Console.WriteLine("Хоите продолжить?(Y/N)");
-        string readUserConfirm = Console.ReadLine();
+        while (true)
+        {
+            Console.WriteLine(question);
+            Console.Write("Введите (Y/N): ");
+            string normalizedConfirm = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(normalizedConfirm))
+            {
+                Console.WriteLine("Некорректный ввод. Повторите попытку!");
+                continue;
+            }
+
+            string fixConfirm = normalizedConfirm.Trim().ToLower();
+
+            if(fixConfirm == "y")
+            {
+                return true;
+            }
+            else if(fixConfirm == "n")
+            {
+                return false;
+            }
+            
+            Console.WriteLine("Такой опции нету! Повторите попытку");
+            
+        }
     }
 
 
