@@ -104,32 +104,47 @@ class GuessNumber
 
         if (ConfirmChoise("Хотите задать диапазон?"))
         {
+            int lowNumber;
+            int highNumber;
             while (true)
             {
                 Console.Write("Введите минимальное число диапазона: ");
                 string low = Console.ReadLine();
-                int lowNumber;
                 if (!int.TryParse(low, out lowNumber))
                 {
                     Console.WriteLine("Некорректно введено число. Повторите попытку!");
                     continue;
                 }
+                break;
+            }
 
+            while (true)
+            {
                 Console.Write("Введите максимальное число диапазона: ");
                 string high = Console.ReadLine();
-                int highNumber;
+                
                 if (!int.TryParse(high, out highNumber))
                 {
                     Console.WriteLine("Некорректно введено число. Повторите попытку!");
                     continue;
                 }
 
-                Console.WriteLine($"Отлично! Диапазон изменен с [{lowValue} : {highValue}] на [{lowNumber} : {highNumber}].");
-                lowValue = lowNumber;
-                highValue = highNumber;
+                if (lowNumber >= highNumber)
+                {
+                    Console.WriteLine("Максимальный диапазон не может быть меньше минимального. Повторите попытку!");
+                    continue;
+                }
                 break;
             }
+
             
+
+            Console.WriteLine($"Отлично! Диапазон изменен с [{lowValue} : {highValue}] на [{lowNumber} : {highNumber}].");
+            lowValue = lowNumber;
+            highValue = highNumber;
+
+
+
 
         }
         else
